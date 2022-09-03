@@ -14,41 +14,30 @@ public:
         
         if(l1 == NULL) return l2; 
         if(l2 == NULL) return l1;
-        // here dummy->next will serve as the head of the new LinkedList
-        ListNode* dummy = new ListNode(0);
         
-        // creating a temp node to traverse the newList
+        ListNode* dummy = new ListNode(0);
         ListNode* temp= dummy;
         
         while(l1 && l2){
             if(l1->val<= l2->val){
-                ListNode* newNode = new ListNode(l1->val);
+                temp->next= l1;
                 l1=l1->next;
-                temp->next= newNode;
-                temp= temp->next; 
             }
             else{
-                ListNode* newNode = new ListNode(l2->val);
+                temp->next= l2;
                 l2=l2->next;
-                temp->next= newNode;
-                temp= temp->next;
             }
+            temp= temp->next;
         }
-        while(l1){
-            ListNode* newNode = new ListNode(l1->val);
-            l1=l1->next;
-            temp->next= newNode;
-            temp= temp->next; 
+        if(l1!=NULL){
+            temp->next=l1;
         }
-        
-        while(l2){
-            ListNode* newNode = new ListNode(l2->val);
-            l2=l2->next;
-            temp->next= newNode;
-            temp= temp->next;  
+        if(l2!=NULL){
+            temp->next= l2;
         }
         
         ListNode* newHead= dummy->next;
-        return newHead;     
+        return newHead;
+        
     }
 };
