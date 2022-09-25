@@ -1,42 +1,34 @@
 class Solution {
 public:
     vector<vector<int>> threeSum(vector<int>& nums) {
-        vector<vector<int>> ans;
-        int target=0,sum;
-        if(nums.empty()){
-            return ans;
-        }
-        sort(nums.begin(),nums.end());
         int n= nums.size();
+        vector<vector<int>> ans;
+        sort(nums.begin(),nums.end());
         for(int i=0;i<n;i++){
-            long long rem= (long long)target- nums[i];
-            int front=i+1;
-            int back=n-1;
-            while(front<back){
-                sum= nums[front]+nums[back];
-                if(sum>rem){
-                    back--;
+            int lo=i+1;
+            int hi= n-1;
+            while(lo<hi){
+                if(nums[i]+nums[hi]+nums[lo]==0){
+                    vector<int> temp(3,0);
+                    temp[0]= nums[i];
+                    temp[1]=nums[lo];
+                    temp[2]=nums[hi];
+                    ans.push_back(temp);
+                    while(lo<hi && nums[lo]==temp[1]){
+                        lo++;
+                    }
+                    while(lo<hi && nums[hi]==temp[2]){
+                        hi--;
+                    }
                 }
-                else if(sum<rem){
-                    front++;
+                else if(nums[hi]+nums[lo]<-nums[i]){
+                    lo++;
                 }
                 else{
-                    vector<int> trip(3,0);
-                    trip[0]=nums[i];
-                    trip[1]=nums[front];
-                    trip[2]=nums[back];
-                    ans.push_back(trip);
-                    
-                    while(front<back && nums[front]==trip[1]){
-                        front++;
-                    }
-                    
-                    while(front<back && nums[back]==trip[2]){
-                        back--;
-                    }
+                    hi--;
                 }
             }
-            while(i+1<n && nums[i]==nums[i+1]){
+            while(i<n-1 && nums[i]==nums[i+1]){
                 i++;
             }
         }
