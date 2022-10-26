@@ -1,30 +1,28 @@
-// Tabulation
+// Space optimization
 class Solution {
 public:
     bool subsetSum(vector<int>& nums, int target, int n){
-        vector<vector<bool>> dp(n, vector<bool>(target+1,false));
-        
-        // intitialize base case: if target==0
-        for(int i=0;i<n;i++){
-            dp[i][0]= true;
-        }
+        vector<bool> prev(target+1,false);
         
         // intitialize base case: if ind==0 && target== nums[0]
-        if(target == nums[0]) dp[0][nums[0]]= true;
+        if(nums[0]<= target) prev[nums[0]]= true;
         
         for(int ind=1;ind<n;ind++){
+            vector<bool> curr(target+1,false);
+            curr[0]= true;   // intitialize base case everytime: if target==0
             for(int k=1;k<=target;k++){
                 //not pick
-                bool notpick= dp[ind-1][k];
+                bool notpick= prev[k];
 
                 bool pick= false;
                 if(nums[ind]<=k){
-                    pick= dp[ind-1][k-nums[ind]];
+                    pick= prev[k-nums[ind]];
                 }
-                dp[ind][k]= pick || notpick;          
+                curr[k]= pick || notpick;          
             }
+            prev= curr;
         }
-        return dp[n-1][target];       
+        return prev[target];       
     }
     bool canPartition(vector<int>& nums) {
         int totSum=0;
@@ -40,6 +38,51 @@ public:
         return subsetSum(nums, target,n);
     }
 };
+
+
+
+// // Tabulation
+// class Solution {
+// public:
+//     bool subsetSum(vector<int>& nums, int target, int n){
+//         vector<vector<bool>> dp(n, vector<bool>(target+1,false));
+        
+//         // intitialize base case: if target==0
+//         for(int i=0;i<n;i++){
+//             dp[i][0]= true;
+//         }
+        
+//         // intitialize base case: if ind==0 && target== nums[0]
+//         if(target == nums[0]) dp[0][nums[0]]= true;
+        
+//         for(int ind=1;ind<n;ind++){
+//             for(int k=1;k<=target;k++){
+//                 //not pick
+//                 bool notpick= dp[ind-1][k];
+
+//                 bool pick= false;
+//                 if(nums[ind]<=k){
+//                     pick= dp[ind-1][k-nums[ind]];
+//                 }
+//                 dp[ind][k]= pick || notpick;          
+//             }
+//         }
+//         return dp[n-1][target];       
+//     }
+//     bool canPartition(vector<int>& nums) {
+//         int totSum=0;
+//         int n= nums.size();
+//         for(int i=0;i<n;i++){
+//             totSum+= nums[i];
+//         }
+        
+//         if(totSum % 2==1) return false; // if TotalSum is odd
+        
+//         int target= totSum/2;
+        
+//         return subsetSum(nums, target,n);
+//     }
+// };
 
 
 // Memoization
@@ -84,3 +127,5 @@ public:
 //         return subsetSum(n-1,target, nums,dp);
 //     }
 // };
+
+
