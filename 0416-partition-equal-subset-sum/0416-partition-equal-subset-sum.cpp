@@ -33,7 +33,7 @@ public:
         
         int target= totSum/2;
         
-        vector<vector<int>> dp(n, vector<int>(totSum,-1));
+        vector<vector<int>> dp(n, vector<int>(target+1,-1));
         
         return subsetSum(n-1,target, nums,dp);
     }
