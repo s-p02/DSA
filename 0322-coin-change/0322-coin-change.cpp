@@ -1,27 +1,28 @@
-//Tabulation
+//Space Optimzation
 class Solution {
 public:
     int f(vector<int>& coins, int target){
         int n= coins.size();
-        vector<vector<int>>dp(n,vector<int>(target+1,0));
-        
+        vector<int> prev(target+1,0);
         // Base case 
         for(int i=0; i<= target;i++){
-            if(i%coins[0]==0) dp[0][i]= i/coins[0];
-            else dp[0][i]= 1e9;
+            if(i%coins[0]==0) prev[i]= i/coins[0];
+            else prev[i]= 1e9;
         }
         
         for(int ind=1;ind<n;ind++){
+            vector<int> curr(target+1,0);
             for(int tar=0;tar<=target;tar++){
-                int notpick= 0+ dp[ind-1][tar];
+                int notpick= 0+ prev[tar];
                 int pick= 1e9; 
                 if(coins[ind]<= tar) {
-                    pick= 1+ dp[ind][tar-coins[ind]];
+                    pick= 1+ curr[tar-coins[ind]];
                 }
-                dp[ind][tar]= min(pick,notpick);
+                curr[tar]= min(pick,notpick);
             }
+            prev= curr;
         }
-        return dp[n-1][target];
+        return prev[target];
     }
     int coinChange(vector<int>& coins, int amount) {
         int ans= f(coins,amount);
@@ -33,6 +34,43 @@ public:
         }
     }
 };
+
+
+// //Tabulation
+// class Solution {
+// public:
+//     int f(vector<int>& coins, int target){
+//         int n= coins.size();
+//         vector<vector<int>>dp(n,vector<int>(target+1,0));
+        
+//         // Base case 
+//         for(int i=0; i<= target;i++){
+//             if(i%coins[0]==0) dp[0][i]= i/coins[0];
+//             else dp[0][i]= 1e9;
+//         }
+        
+//         for(int ind=1;ind<n;ind++){
+//             for(int tar=0;tar<=target;tar++){
+//                 int notpick= 0+ dp[ind-1][tar];
+//                 int pick= 1e9; 
+//                 if(coins[ind]<= tar) {
+//                     pick= 1+ dp[ind][tar-coins[ind]];
+//                 }
+//                 dp[ind][tar]= min(pick,notpick);
+//             }
+//         }
+//         return dp[n-1][target];
+//     }
+//     int coinChange(vector<int>& coins, int amount) {
+//         int ans= f(coins,amount);
+//         if(ans>=1e9){
+//             return -1;
+//         }
+//         else{
+//             return ans;
+//         }
+//     }
+// };
 
 // // Memoization 
 // class Solution {
