@@ -1,30 +1,63 @@
+// Space optimization
 class Solution {
 public:
     int change(int amount, vector<int>& nums) {
         
         int n= nums.size();
-        vector<vector<int>>dp(n, vector<int>(amount+1,0));
+        vector<int>prev(amount+1,0);
         
         // base cases:
         for(int i=0;i<=amount;i++){
-            if(i%nums[0]==0) dp[0][i]=1;
+            if(i%nums[0]==0) prev[i]=1;
         }
         
         for(int ind=1;ind<n;ind++){
+            vector<int>curr(amount+1,0);
             for(int tar=0;tar<=amount;tar++){
-                int notpick= dp[ind-1][tar];
+                int notpick= prev[tar];
                 int pick=0;
                 if(nums[ind]<=tar){
-                    pick= dp[ind][tar-nums[ind]];
+                    pick= curr[tar-nums[ind]];
                 }
-                dp[ind][tar]= pick+notpick;
+                curr[tar]= pick+notpick;
             }
+            prev=curr;
         }
         
-        return dp[n-1][amount];
+        return prev[amount];
         
     }
 };
+
+
+// // Tabulation
+// class Solution {
+// public:
+//     int change(int amount, vector<int>& nums) {
+        
+//         int n= nums.size();
+//         vector<vector<int>>dp(n, vector<int>(amount+1,0));
+        
+//         // base cases:
+//         for(int i=0;i<=amount;i++){
+//             if(i%nums[0]==0) dp[0][i]=1;
+//         }
+        
+//         for(int ind=1;ind<n;ind++){
+//             for(int tar=0;tar<=amount;tar++){
+//                 int notpick= dp[ind-1][tar];
+//                 int pick=0;
+//                 if(nums[ind]<=tar){
+//                     pick= dp[ind][tar-nums[ind]];
+//                 }
+//                 dp[ind][tar]= pick+notpick;
+//             }
+//         }
+        
+//         return dp[n-1][amount];
+        
+//     }
+// };
 
 
 // memoization
