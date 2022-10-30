@@ -1,36 +1,70 @@
-// Tabulation
+// Space Optimization
 class Solution {
 public:
     int longestCommonSubsequence(string text1, string text2) {
         int n= text1.size();
         int m= text2.size();
         //Applying Shifting of indexes in order to represent -1
-        vector<vector<int>>dp(n+1,vector<int>(m+1,0));
+        vector<int>prev(m+1,0);
         
         // base case
         for(int i=0;i<=m;i++){   // if(ind1==0) then ind2 can go from 0 to m
-            dp[0][i]=0;
-        }
-        
-        for(int j=0;j<=n;j++){   // if(ind2==0) then ind1 can go from 0 to n
-            dp[j][0]=0;
+            prev[i]=0;
         }
         
         // Table
         for(int i=1;i<=n;i++){
+            vector<int>curr(m+1,0);
+            curr[0]=0;
             for(int j=1;j<=m;j++){
                 if(text1[i-1]==text2[j-1]){
-                    dp[i][j]= 1+ dp[i-1][j-1];
+                    curr[j]= 1+ prev[j-1];
                 }
                 else{ // if not matched
-                    dp[i][j]=0+ max(dp[i][j-1],dp[i-1][j]);
+                    curr[j]=0+ max(curr[j-1],prev[j]);
                 }
             }
+            prev=curr;
         }
         
-        return dp[n][m];
+        return prev[m];
     }
 };
+
+
+// // Tabulation
+// class Solution {
+// public:
+//     int longestCommonSubsequence(string text1, string text2) {
+//         int n= text1.size();
+//         int m= text2.size();
+//         //Applying Shifting of indexes in order to represent -1
+//         vector<vector<int>>dp(n+1,vector<int>(m+1,0));
+        
+//         // base case
+//         for(int i=0;i<=m;i++){   // if(ind1==0) then ind2 can go from 0 to m
+//             dp[0][i]=0;
+//         }
+        
+//         for(int j=0;j<=n;j++){   // if(ind2==0) then ind1 can go from 0 to n
+//             dp[j][0]=0;
+//         }
+        
+//         // Table
+//         for(int i=1;i<=n;i++){
+//             for(int j=1;j<=m;j++){
+//                 if(text1[i-1]==text2[j-1]){
+//                     dp[i][j]= 1+ dp[i-1][j-1];
+//                 }
+//                 else{ // if not matched
+//                     dp[i][j]=0+ max(dp[i][j-1],dp[i-1][j]);
+//                 }
+//             }
+//         }
+        
+//         return dp[n][m];
+//     }
+// };
 
 
 // Memoization
