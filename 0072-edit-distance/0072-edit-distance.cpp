@@ -1,36 +1,77 @@
-// Tabulation
+// Space Optimization
 class Solution {
 public:
     int minDistance(string s1, string s2) {
         int n= s1.size();
         int m= s2.size();
-        vector<vector<int>> dp(n+1,vector<int>(m+1,0));
+        vector<int> prev(m+1,0);
         
         // base case with shifting of index
         for(int j=0;j<=m;j++){ // when i==0
-            dp[0][j]=j;
+            prev[j]=j;
         }
-        for(int i=0;i<=n;i++){ // when j==0
-            dp[i][0]=i;
-        }
+        
+        // This base case will be handled later: when creating each new row assign 0th element as the base case
+        
+        // for(int i=0;i<=n;i++){ // when j==0
+        //     dp[i][0]=i;
+        // }
         
         // table
         for(int i=1;i<=n;i++){
+            vector<int> curr(m+1,0);
+            curr[0]=i; // base case 2 
             for(int j=1;j<=m;j++){
                 if(s1[i-1]==s2[j-1]){
-                    dp[i][j]=0+dp[i-1][j-1];
+                    curr[j]=0+prev[j-1];
                 }
                 else{
-                    int insert= 1+dp[i][j-1];
-                    int del= 1+ dp[i-1][j]; 
-                    int replace= 1+ dp[i-1][j-1];
-                    dp[i][j]= min(insert,min(del,replace));
+                    int insert= 1+curr[j-1];
+                    int del= 1+ prev[j]; 
+                    int replace= 1+ prev[j-1];
+                    curr[j]= min(insert,min(del,replace));
                 }
             }
+            prev=curr;
         }
-        return dp[n][m];        
+        return prev[m];        
     }
 };
+
+
+// // Tabulation
+// class Solution {
+// public:
+//     int minDistance(string s1, string s2) {
+//         int n= s1.size();
+//         int m= s2.size();
+//         vector<vector<int>> dp(n+1,vector<int>(m+1,0));
+        
+//         // base case with shifting of index
+//         for(int j=0;j<=m;j++){ // when i==0
+//             dp[0][j]=j;
+//         }
+//         for(int i=0;i<=n;i++){ // when j==0
+//             dp[i][0]=i;
+//         }
+        
+//         // table
+//         for(int i=1;i<=n;i++){
+//             for(int j=1;j<=m;j++){
+//                 if(s1[i-1]==s2[j-1]){
+//                     dp[i][j]=0+dp[i-1][j-1];
+//                 }
+//                 else{
+//                     int insert= 1+dp[i][j-1];
+//                     int del= 1+ dp[i-1][j]; 
+//                     int replace= 1+ dp[i-1][j-1];
+//                     dp[i][j]= min(insert,min(del,replace));
+//                 }
+//             }
+//         }
+//         return dp[n][m];        
+//     }
+// };
 
 
 // Memoization
