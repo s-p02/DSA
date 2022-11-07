@@ -1,34 +1,74 @@
-// Tabulation
+// Space Optimization
 class Solution {
 public:
     int numDistinct(string s, string t) {
         int n= s.size();
         int m= t.size();
         // Shifting of indexes because -1 index is not possible in table
-        vector<vector<double>>dp(n+1,vector<double>(m+1,0));
+        vector<double>prev(m+1,0);
         
-        // base case:
-        for(int i=0;i<=n;i++){ // ifj==0 then i can range from 0 to n
-            dp[i][0]=1;
-        }
+        // base case: will be handled while creating column
+        // for(int i=0;i<=n;i++){ // ifj==0 then i can range from 0 to n
+        //     dp[i][0]=1;
+        // }
+        
+        prev[0]=1;
+        // base case
         for(int j=1;j<=m;j++){ // ifi==0 then j can range from 1 to m
-            dp[0][j]=0;
+            prev[j]=0;
         }
         
         // table
         for(int i=1;i<=n;i++){
+            vector<double>curr(m+1,0);
+            curr[0]=1;
             for(int j=1;j<=m;j++){
                 if(s[i-1]==t[j-1]){
-                    dp[i][j]= dp[i-1][j-1]+dp[i-1][j];
+                    curr[j]= prev[j-1]+prev[j];
                 }
                 else{
-                    dp[i][j]=dp[i-1][j];
+                    curr[j]=prev[j];
                 }
             }
+            prev= curr;
         }
-        return (int)dp[n][m];
+        return (int)prev[m];
     }
 };
+
+
+
+// // Tabulation
+// class Solution {
+// public:
+//     int numDistinct(string s, string t) {
+//         int n= s.size();
+//         int m= t.size();
+//         // Shifting of indexes because -1 index is not possible in table
+//         vector<vector<double>>dp(n+1,vector<double>(m+1,0));
+        
+//         // base case:
+//         for(int i=0;i<=n;i++){ // ifj==0 then i can range from 0 to n
+//             dp[i][0]=1;
+//         }
+//         for(int j=1;j<=m;j++){ // ifi==0 then j can range from 1 to m
+//             dp[0][j]=0;
+//         }
+        
+//         // table
+//         for(int i=1;i<=n;i++){
+//             for(int j=1;j<=m;j++){
+//                 if(s[i-1]==t[j-1]){
+//                     dp[i][j]= dp[i-1][j-1]+dp[i-1][j];
+//                 }
+//                 else{
+//                     dp[i][j]=dp[i-1][j];
+//                 }
+//             }
+//         }
+//         return (int)dp[n][m];
+//     }
+// };
 
 
 // // Memoization
