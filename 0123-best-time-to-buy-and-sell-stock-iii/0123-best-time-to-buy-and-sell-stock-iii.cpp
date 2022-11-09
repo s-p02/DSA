@@ -1,33 +1,64 @@
-// Tablulation
+// space optimization
 class Solution {
 public:
     int maxProfit(vector<int>& prices) {
         int n= prices.size();
-        vector<vector<vector<int>>> dp(n+1,
-                                      vector<vector<int>>(2,
-                                                         vector<int>(3,0)));
-        
+        vector<vector<int>> ahead(2,vector<int>(3,0));
+                                                         
         // Base case already intitialized while declaring dp
         
         // table
         for(int ind=n-1;ind>=0;ind--){ // ind==n base case
+             vector<vector<int>> curr(2,vector<int>(3,0));
             for(int buy=1;buy>=0;buy--){
                 for(int cap=2;cap>0;cap--){ //cap==0 base case
                     if(buy==0){
-                        dp[ind][buy][cap]= max(0+ dp[ind+1][0][cap],
-                                  -prices[ind]+ dp[ind+1][1][cap]);
+                        curr[buy][cap]= max(0+ ahead[0][cap],
+                                  -prices[ind]+ ahead[1][cap]);
                     }
                     else{
-                        dp[ind][buy][cap]=max(0+ dp[ind+1][1][cap],
-                                  +prices[ind]+ dp[ind+1][0][cap-1]);
-                    }
-                    
+                        curr[buy][cap]=max(0+ ahead[1][cap],
+                                  +prices[ind]+ ahead[0][cap-1]);
+                    }                    
                 }
             }
+            ahead= curr;
         }
-        return dp[0][0][2];       
+        return ahead[0][2];
     }
-}; 
+};
+
+
+// // Tablulation
+// class Solution {
+// public:
+//     int maxProfit(vector<int>& prices) {
+//         int n= prices.size();
+//         vector<vector<vector<int>>> dp(n+1,
+//                                       vector<vector<int>>(2,
+//                                                          vector<int>(3,0)));
+        
+//         // Base case already intitialized while declaring dp
+        
+//         // table
+//         for(int ind=n-1;ind>=0;ind--){ // ind==n base case
+//             for(int buy=1;buy>=0;buy--){
+//                 for(int cap=2;cap>0;cap--){ //cap==0 base case
+//                     if(buy==0){
+//                         dp[ind][buy][cap]= max(0+ dp[ind+1][0][cap],
+//                                   -prices[ind]+ dp[ind+1][1][cap]);
+//                     }
+//                     else{
+//                         dp[ind][buy][cap]=max(0+ dp[ind+1][1][cap],
+//                                   +prices[ind]+ dp[ind+1][0][cap-1]);
+//                     }
+                    
+//                 }
+//             }
+//         }
+//         return dp[0][0][2];       
+//     }
+// }; 
 
 
 
