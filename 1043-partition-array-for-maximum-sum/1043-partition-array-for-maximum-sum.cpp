@@ -5,12 +5,9 @@ public:
         if(i>=n) return 0;
         if(dp[i]!=-1) return dp[i];
         int largestSum= INT_MIN;
+        int maxi= INT_MIN;
         for(int ind=i;ind<min(n,i+k);ind=ind+1){
-            int maxi= INT_MIN;
-            for(int j=i;j<=ind;j++){
-                maxi= max(arr[j],maxi);
-            }
-            
+            maxi= max(arr[ind],maxi); 
             int cnt= (ind-i+1)*maxi+ f(ind+1,arr,n,k,dp) ;
             largestSum= max(largestSum,cnt);
         }
