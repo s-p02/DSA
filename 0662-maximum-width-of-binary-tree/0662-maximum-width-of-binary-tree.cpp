@@ -23,12 +23,12 @@ public:
         while(!q.empty())
         {
             int size=q.size();
-            //int mn=q.front().second;
+            int mn=q.front().second;
             int first,last;
             
             for(int i=0;i<size;i++)
             {
-                int curr=q.front().second;
+                int curr=q.front().second-mn;
                 TreeNode* node=q.front().first;
                 q.pop();
                 if(i==0) first=curr;
