@@ -19,11 +19,14 @@ public:
             str+=(to_string(node->val));
             ans.push_back(str);
         }
+        
         else{
             str+= (to_string(node->val)+"->");
         }
         help(node->left,str,ans);
         help(node->right,str,ans);
+        
+        return;
     }
     vector<string> binaryTreePaths(TreeNode* root) {
         vector<string> answer;
