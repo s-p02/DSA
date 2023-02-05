@@ -9,28 +9,58 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
-
-
-// Iterative
 class Solution {
 public:
     vector<int> preorderTraversal(TreeNode* root) {
-        vector<int> ans;
-        if(root==NULL){
-            return ans;
+        vector<int> preorder;
+        TreeNode* curr= root;
+        while(curr!=NULL){
+            if(curr->left==NULL){
+                preorder.push_back(curr->val);
+                curr=curr->right;
+            }
+            else{
+                TreeNode* prev= curr->left;
+                while(prev->right!=NULL && prev->right!=curr){
+                    prev=prev->right;
+                }
+                if(prev->right==NULL){
+                    prev->right=curr;
+                    preorder.push_back(curr->val);
+                    curr=curr->left;
+                }
+                else{
+                    prev->right=NULL;
+                    curr=curr->right;
+                }
+            }
         }
-        stack <TreeNode*>s;
-        s.push(root);   
-        while(!s.empty()){
-            TreeNode* temp= s.top();
-            s.pop();
-            ans.push_back(temp->val);
-            if(temp->right) s.push(temp->right);
-            if(temp->left) s.push(temp->left);
-        }
-        return ans;
+        return preorder;
     }
 };
+
+
+
+// // Iterative
+// class Solution {
+// public:
+//     vector<int> preorderTraversal(TreeNode* root) {
+//         vector<int> ans;
+//         if(root==NULL){
+//             return ans;
+//         }
+//         stack <TreeNode*>s;
+//         s.push(root);   
+//         while(!s.empty()){
+//             TreeNode* temp= s.top();
+//             s.pop();
+//             ans.push_back(temp->val);
+//             if(temp->right) s.push(temp->right);
+//             if(temp->left) s.push(temp->left);
+//         }
+//         return ans;
+//     }
+// };
 
 
 
