@@ -9,6 +9,8 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
+
+//Morris Algorithm
 class Solution {
 public:
     vector<int> inorderTraversal(TreeNode* root) {
