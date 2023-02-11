@@ -51,17 +51,15 @@ public:
         if(root->right== NULL) return root->left;
         
         TreeNode* rightchild= root->right;
-        TreeNode* leftMostChild= find(root->left);
-        leftMostChild->right= rightchild;
-        
+        TreeNode* curr= root->left;
+        //Attach root right to rightmost node of left subtree
+        while(curr->right!=NULL){
+            curr=curr->right;
+        }
+        curr->right= rightchild;
         return root->left;
     }
     
-    TreeNode* find(TreeNode* root){
-        if(root->right==NULL){
-            return root;
-        }
-        return find(root->right);
-    }
+
         
 };
