@@ -30,6 +30,17 @@ public:
             }   
         }
     }
+    void dfs(int i, int j, vector<vector<char>> &grid, vector<vector<int>>&vis){
+        if(i<0 || i>=grid.size() || j<0 || j>=grid[0].size()|| grid[i][j]=='0' || vis[i][j]==1){
+            return;
+        }
+        vis[i][j]=1;
+        dfs(i+1,j,grid,vis);
+        dfs(i-1,j,grid,vis) ;
+        dfs(i,j+1,grid,vis) ;
+        dfs(i,j-1,grid,vis) ;                                                           
+       
+    }
     int numIslands(vector<vector<char>>& grid) {
         int n= grid.size();
         int m= grid[0].size();
@@ -39,7 +50,7 @@ public:
             for(int j=0;j<m;j++){
                 if(grid[i][j]=='1' && !vis[i][j]){
                     cnt++;
-                    bfs(i,j,grid,vis);
+                    dfs(i,j,grid,vis);
                 }
             }
         }
