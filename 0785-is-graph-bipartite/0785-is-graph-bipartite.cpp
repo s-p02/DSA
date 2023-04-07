@@ -1,6 +1,6 @@
 class Solution {
 public:
-    bool check(int start, int n,vector<vector<int>>& graph, int color[]){
+    bool bfs(int start, int n,vector<vector<int>>& graph, int color[]){
         queue<int> q;
         q.push(start);
         color[start]=0;
@@ -24,6 +24,23 @@ public:
         }
         return true;
     }
+    bool dfs(int start,vector<vector<int>>& graph, int color[], int col){
+        color[start]=col;
+        for(auto it: graph[start]){
+            // if not colored
+            if(color[it]==-1){
+                if(dfs(it,graph,color, !col)==false){
+                    return false;
+                }
+            }
+            // if colored and same as adjacent color not bipartite graph
+            else if(color[it]==col){
+                return false;
+            }
+        }
+        return true;
+    }
+    
     bool isBipartite(vector<vector<int>>& graph) {
         
         int n= graph.size();
@@ -33,7 +50,10 @@ public:
         }
         for(int i=0;i<n;i++){
             if(color[i]==-1){
-                if(check(i,n,graph,color)==false){
+                // if(bfs(i,n,graph,color)==false){
+                //     return false;
+                // }
+                if(dfs(i,graph,color,0)==false){
                     return false;
                 }
             }
