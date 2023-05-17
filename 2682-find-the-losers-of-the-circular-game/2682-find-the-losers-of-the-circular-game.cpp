@@ -4,10 +4,9 @@ public:
         
         vector<int> vis(n+1,0);
         int ball=1;
-        bool flag=true;
         vis[ball]=1;
         int step=1;
-        while(flag){
+        while(true){
             if((ball+(step*k))%n==0){
                 ball=n;
             }
@@ -16,7 +15,6 @@ public:
             }
             vis[ball]++;
             if(vis[ball]==2){
-                flag=false;
                 break;
             }
             step++;
@@ -27,7 +25,6 @@ public:
                 res.push_back(i);
             }
         }
-//        sort(res.begin(),res.end());
         return res;
     }
 };
