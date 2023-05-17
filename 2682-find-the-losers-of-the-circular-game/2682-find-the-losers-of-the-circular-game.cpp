@@ -27,7 +27,7 @@ public:
                 res.push_back(i);
             }
         }
-        sort(res.begin(),res.end());
+//        sort(res.begin(),res.end());
         return res;
     }
 };
