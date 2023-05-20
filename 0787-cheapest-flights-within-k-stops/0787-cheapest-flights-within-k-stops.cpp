@@ -1,68 +1,39 @@
 class Solution {
 public:
-    struct Flight{
-        int dstNode;
-        int steps;
-        int price;
-
-        Flight(int dst, int stp, int cost) : dstNode(dst), steps(stp), price(cost)
-        {}
-
-        bool operator >(const Flight& rhs) const
-        {
-            return price > rhs.price;
+    int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) {
+        vector<pair<int,int>> adj[n];
+        for(auto it: flights){
+            adj[it[0]].push_back({it[1], it[2]});
         }
-    };
-
-    int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) 
-    {
-        std::vector<std::vector<std::pair<int, int>>> adjacencyList(n);
-        for (int i = 0; i < flights.size(); i++)
-        {
-            //src.emplace_back(dst, price)
-            adjacencyList[flights[i][0]].emplace_back(flights[i][1], flights[i][2]);
-        }
-
-        std::priority_queue<Flight, std::vector<Flight>, std::greater<Flight>> flightPQ;
-        std::vector<int> stops(n, INT_MAX);
-
-
-        for (int i = 0; i < adjacencyList[src].size(); i++)
-        {
-            Flight newFlight(adjacencyList[src][i].first, 0, adjacencyList[src][i].second);
-            flightPQ.emplace(newFlight);
-        }
-
-        while (flightPQ.empty() == false)
-        {
-            int pqSize = flightPQ.size();
-
-            for (int i = 0; i < pqSize; i++)
-            {
-            Flight newFlight = flightPQ.top();
-            flightPQ.pop();
-
-            if (newFlight.dstNode == dst)
-            {
-                return newFlight.price;
-            }
-
-            //If we've went over the amount of steps available to us OR
-            //if we've reached this node before in a shorter amount of time
-            if (newFlight.steps >= k || newFlight.steps > stops[newFlight.dstNode])
-            {
-                continue;
-            }
-            stops[newFlight.dstNode] = newFlight.steps;
-
-            for (auto& dstAndPrice : adjacencyList[newFlight.dstNode])
-            {
-                flightPQ.emplace(dstAndPrice.first, newFlight.steps + 1, dstAndPrice.second + newFlight.price);
-            }
+        //{stops,{node, dist}};
+        queue<pair<int,pair<int,int>>> q;
+        vector<int> dist(n,1e9);
+        dist[src]=0;
+        q.push({0,{src,0}});
+        while(!q.empty()){
+            auto it= q.front();
+            q.pop();
+            int stops= it.first;
+            int node= it.second.first;
+            int dis= it.second.second;
+            // We stop the process as soon as the limit for the stops reaches.
+            // if(stops>k){
+            //     continue;
+            // }
+            for(auto i: adj[node]){
+                int adjnode=i.first;
+                int cost= i.second;
+                if(stops<=k && dis+cost<dist[adjnode]){
+                    dist[adjnode]= dis+cost;
+                    q.push({stops+1, {adjnode, dis+cost}});
+                }
             }
         }
-
-        return -1;
+        if(dist[dst]==1e9){
+            return -1;
+        }
+        else{
+            return dist[dst];
+        }
     }
 };
-
