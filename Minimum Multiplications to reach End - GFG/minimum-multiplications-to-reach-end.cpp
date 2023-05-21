@@ -24,7 +24,7 @@ class Solution {
                 int ele= (node*it)%modu;
                 if(dis+1<dist[ele]){
                     dist[ele]=dis+1;
-                    if(ele==end) return dis+1;
+                    if(ele==end) return dist[ele];
                     q.push({dis+1, ele});
                 }
             }
