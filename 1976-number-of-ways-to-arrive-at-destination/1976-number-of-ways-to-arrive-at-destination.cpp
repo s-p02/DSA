@@ -21,7 +21,10 @@ public:
         vector<long long> dist(n, LLONG_MAX);
         dist[0] = 0;
         
-        priority_queue<vector<long long>, vector<vector<long long>>, greater<vector<long long>>> pq;
+        priority_queue<vector<long long>, 
+                        vector<vector<long long>>, 
+                        greater<vector<long long>>> pq;
+        
         pq.push({0, 0}); // dist, node
         
         while(!pq.empty()){
@@ -31,7 +34,7 @@ public:
             long long d = front[0];
             long long currcity = front[1];
             
-            for(auto &next : adjList[currcity]){
+            for(auto next : adjList[currcity]){
                 long long nextcity = next[0];
                 long long edgeWt = next[1];
                 if( d + edgeWt < dist[nextcity]){
