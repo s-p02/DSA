@@ -6,9 +6,9 @@ public:
         return ans;
     }
     int recur(int n,vector<int> &dp){
-        if(n==0 || n==1){
-            return 1;
-        }
+        if(n==1) return 1;
+        if(n==2) return 2;
+            
         if(dp[n]!=-1){
             return dp[n];
         }
