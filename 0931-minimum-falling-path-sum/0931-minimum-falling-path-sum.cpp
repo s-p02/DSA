@@ -1,3 +1,31 @@
+// class Solution {
+// public:
+//     int recur( int i, int j,vector<vector<int>>& matrix,int n, vector<vector<int>> &dp){
+//         if(j<0 || j>=n) return 1e9;
+//         if(i==n-1){
+//             return matrix[i][j];
+//         }
+//         if(dp[i][j]!=-1) return dp[i][j];
+        
+//         int bl= matrix[i][j]+ recur(i+1,j-1,matrix,n,dp);
+//         int b= matrix[i][j]+ recur(i+1,j,matrix,n,dp);
+//         int br= matrix[i][j]+ recur(i+1,j+1,matrix,n,dp);
+        
+//         return dp[i][j]=min(bl, min(b,br));
+        
+//     }
+//     int minFallingPathSum(vector<vector<int>>& matrix) {
+//         int n= matrix.size();
+//         int mini= INT_MAX;
+//         vector<vector<int>> dp(n,vector<int>(n,-1));
+//         for( int i=0;i<n;i++){
+//             mini= min(mini, recur(0,i,matrix,n,dp));
+//         }
+//         return mini;
+//     }
+// };
+
+
 // space optimization
 class Solution {
 public:
