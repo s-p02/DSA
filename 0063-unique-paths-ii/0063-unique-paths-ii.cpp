@@ -1,32 +1,67 @@
-// Tabulation
+// space optimization:
 class Solution {
 public:
     int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) {
         int n= obstacleGrid.size();
         int m= obstacleGrid[0].size();
-        vector<vector<int>> dp(n,vector<int>(m,-1));
-        
-        
+        vector<int>prev(m,0);
         for(int i=0;i<n;i++){
+            vector<int> temp(m,0);
             for(int j=0;j<m;j++){
                 if(i==0 && j==0 && obstacleGrid[i][j]==0 ){
-                    dp[i][j]=1;
+                    temp[j]=1;
                     continue;
                 }
                 int up=0;
                 int left=0;
                 if(i>0 && obstacleGrid[i][j]==0){
-                    up=dp[i-1][j];
+                    up=prev[j];
                 }
                 if(j>0 && obstacleGrid[i][j]==0){
-                    left=dp[i][j-1];
+                    left=temp[j-1];
                 }
-                dp[i][j]=up+left;
+                temp[j]=up+left;
             }
+            prev=temp;
         }
-        return dp[n-1][m-1];
+        return prev[m-1];
     }
 };
+
+
+
+
+
+
+// // Tabulation
+// class Solution {
+// public:
+//     int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) {
+//         int n= obstacleGrid.size();
+//         int m= obstacleGrid[0].size();
+//         vector<vector<int>> dp(n,vector<int>(m,-1));
+        
+        
+//         for(int i=0;i<n;i++){
+//             for(int j=0;j<m;j++){
+//                 if(i==0 && j==0 && obstacleGrid[i][j]==0 ){
+//                     dp[i][j]=1;
+//                     continue;
+//                 }
+//                 int up=0;
+//                 int left=0;
+//                 if(i>0 && obstacleGrid[i][j]==0){
+//                     up=dp[i-1][j];
+//                 }
+//                 if(j>0 && obstacleGrid[i][j]==0){
+//                     left=dp[i][j-1];
+//                 }
+//                 dp[i][j]=up+left;
+//             }
+//         }
+//         return dp[n-1][m-1];
+//     }
+// };
 
 // Memoized Solution:
 
